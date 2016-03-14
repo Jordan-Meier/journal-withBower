@@ -7,6 +7,7 @@ var utilities = require('gulp-util');
 var del = require('del');
 var buildProduction = utilities.env.production;
 var jshint = require('gulp-jshint');
+var lib    = require('bower-files')();
 
 
 gulp.task('concatInterface', function() {
@@ -49,4 +50,12 @@ gulp.task('jshint', function(){
 
 gulp.task('watch', function(){
   gulp.watch('js/*.js', ['jshint', 'build']);
+});
+
+
+gulp.task('bowerJS', function () {
+  return gulp.src(lib.ext('js').files)
+    .pipe(concat('vendor.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./build/js'));
 });
